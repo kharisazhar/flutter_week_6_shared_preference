@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_week_6_shared_preference/feature/contact/ui/contact_page.dart';
+import 'package:flutter_week_6_shared_preference/feature/auth/ui/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'feature/auth/ui/splash_screen.dart';
 
 /// Global Variable
 late SharedPreferences sharedPref;
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const ContactPage(),
+      home: const SplashScreen(),
     );
   }
 }

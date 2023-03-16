@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_week_6_shared_preference/utils/shared_preference_key.dart';
 
 import '../../../main.dart';
 import '../model/contact_model.dart';
@@ -16,7 +17,6 @@ class ContactPage extends StatefulWidget {
 
 class _ContactPageState extends State<ContactPage> {
   ContactModel _contactData = ContactModel(data: []);
-  ContactModel _contactDataLocal = ContactModel(data: []);
 
   @override
   void initState() {
@@ -25,13 +25,20 @@ class _ContactPageState extends State<ContactPage> {
   }
 
   void initDataLocal() {
-    /// GET DATA
-    _contactDataLocal = ContactModel.fromJson(
-      jsonDecode(sharedPref.getString('contact_list_pref') ?? ''),
-    );
+    /// TODO 1. GET DATA
+    var dataLocal = sharedPref.getString(SharedPreferenceKey.contactListPref);
+    var contactDataLocal = ContactModel(data: []);
 
-    if (_contactDataLocal.data.isNotEmpty) {
-      _contactData = _contactDataLocal;
+    /// TODO 2. CHECK DATA SHARED PREFERENCE
+    if (dataLocal != null) {
+      contactDataLocal = ContactModel.fromJson(
+        jsonDecode(dataLocal),
+      );
+    }
+
+    /// TODO 3. CHECK DATA HASIL PARSING
+    if (contactDataLocal.data.isNotEmpty) {
+      _contactData = contactDataLocal;
       setState(() {});
     }
   }
@@ -70,9 +77,9 @@ class _ContactPageState extends State<ContactPage> {
                   phoneNumber: navigationData?.phoneNumber ?? ''),
             );
 
-            /// SAVE DATA
+            /// TODO 4. SAVE DATA
             await sharedPref.setString(
-              'contact_list_pref',
+              SharedPreferenceKey.contactListPref,
               jsonEncode(
                 _contactData.toJson(),
               ),
